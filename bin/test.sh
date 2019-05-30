@@ -1,3 +1,0 @@
-
-# 
-jest ./test/*.test.js
