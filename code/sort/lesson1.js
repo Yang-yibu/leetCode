@@ -1,6 +1,8 @@
 
 import selectionSort from "./lesson1-2";
 
+// 奇数位只能放奇数；偶数位只能放偶数
+
 let sortArray = (arr) => {
 
     let len = arr.length;

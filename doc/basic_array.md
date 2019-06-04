@@ -67,7 +67,7 @@ gcd(第一余数, 第二余数(第一余数 % 除数))
 
 ### 种花问题
 
-[leetcode: 605](https://leetcode-cn.com/problems/can-place-flowers/)
+[leetCode: 605](https://leetcode-cn.com/problems/can-place-flowers/)
 
 1. 边界问题
 2. 条件

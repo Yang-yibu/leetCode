@@ -14,6 +14,7 @@ let findKthLargest = function (numArr, k) {
     return arr[k - 1];
 }
 
+// 冒泡排序：优化性能
 let findKthLargest1 = function (numArr, k) {
     let len = numArr.length;
 
@@ -43,6 +44,28 @@ let findKthLargest1 = function (numArr, k) {
     // }
 }
 
-export default findKthLargest;
+// 选择排序版本
+// 求第 K 个最大
+let findKthLargest2 = (arr, k) => {
 
-// console.log(findKthLargest1([3, 2, 1, 5, 6, 4], 2))
+    let len = arr.length;
+    for (let i = 0; i < k; i++) {
+        let curMaxIdx = i; // 未排序列表的起始位置
+        for (let j = i + 1; j < len; j++) {
+            if (arr[curMaxIdx] < arr[j]) { // 标记最大的
+                curMaxIdx = j;
+            }
+        }
+
+        if (curMaxIdx !== i) {
+            let tmp = arr[i];
+            arr[i] = arr[curMaxIdx];
+            arr[curMaxIdx] = tmp;
+        }
+    }
+    return arr[k - 1];
+}
+
+export default findKthLargest2;
+
+// console.log(findKthLargest2([3, 2, 1, 5, 6, 4], 2))
