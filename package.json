@@ -1,7 +1,7 @@
 {
-  "name": "leetcode",
+  "name": "leet_code",
   "version": "1.0.0",
-  "description": "leetcode",
+  "description": "leetCode",
   "main": "index.js",
   "scripts": {
     "test": "bash ./scripts/test.sh"
@@ -11,7 +11,7 @@
     "url": ""
   },
   "keywords": [
-    "leetcode"
+    "leetCode"
   ],
   "author": "cuc_ygh@163.com",
   "license": "Apache-2.0",

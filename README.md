@@ -14,8 +14,11 @@ temp   # 临时测试代码
 ```
 
 ```bash
-# 直接运行脚本
+# 直接运行脚本 可用于调试
 npx babel-node ./code/start/sum.js
+
+# 执行单个测试文件
+npx jest ./test/...
 ```
 
 

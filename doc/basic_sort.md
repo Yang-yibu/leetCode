@@ -72,6 +72,8 @@
 
 [leetCode: 164](https://leetcode-cn.com/problems/maximum-gap/)
 
+[实现代码](../code/sort/lesson3.js)
+
 求无序数组，排序后：相邻元素之间最大的差值
 
 冒泡排序中，限制次数的循环中， `i > 0` 也就是 `i === 1` 的执行完成后，还剩一个元素，肯定是最小的，可以跳过
@@ -85,3 +87,11 @@ for (let i = arr.length - 1; i > 0; i --) {  }
 2. 当 i === 1 的时候，由于限制次数的循环 `i > 0`，不执行 i === 0 的情况，导致 `arr[1]` 的 `arr[0]` 差值没有比较
 
 对于第二个边界可以修改循环次数改为 `i >= 0`，也可以直接在 最后再比较一次 `Math.max(tmpMax, arr[1] - arr[0])`
+
+### 缺失的第一个正数
+
+[leetCode: 41 缺失的第一个正数](https://leetcode-cn.com/problems/first-missing-positive/)
+
+#### 总结
+
+变种、延伸的题目。
