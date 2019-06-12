@@ -53,6 +53,29 @@
 ![SelectionSort](./assets/selection_sort.gif)
 
 
+### 快速排序 Quick Sort
+
+[实现代码](../code/sort/lesson1-3.js)
+
+最好时间复杂度：O(n log n)
+平均时间复杂度：O(n log n)
+最坏时间复杂度：O(n^2)
+
+#### 原理
+
+数组中指定一个元素作为标尺，比他大的放到该元素的后边，比他小的放到该元素的前面，如此重复直到全部正序排列。
+
+#### 算法描述
+
+快速排序使用分治思想把一个串（list）分成两个子串（sub-list）.
+- 从数列中挑出一个基准元素（pivot）
+- 重新排列数组。小的放一边，大的放一边，一样大的随便放。在这个分区退出后，该基准就处于数列的中间位置，称为 分区操作（partition）
+- 递归的把小于基准值元素的子数列和大于基准值元素的子数列排序
+
+#### 动图演练
+
+![QuickSort](./assets/quick_sort.gif)
+
 ### 按奇偶数排序数组
 
 [leetCode: 922](https://leetcode-cn.com/problems/sort-array-by-parity-ii/)
