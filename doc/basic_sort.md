@@ -53,6 +53,7 @@
 ![SelectionSort](./assets/selection_sort.gif)
 
 
+
 ### 快速排序 Quick Sort
 
 [实现代码](../code/sort/lesson1-3.js)
@@ -75,6 +76,18 @@
 #### 动图演练
 
 ![QuickSort](./assets/quick_sort.gif)
+
+### in-place 算法 （原地算法）
+
+原地算法不依赖额外的资源或依赖少数的额外资源，仅靠输出来覆盖输入的一种操作算法
+
+递归的时候，不在造成新的内存的增加
+
+#### 思想
+
+划分交换排序
+
+三个游标：标尺元素，要交换的其起始下标，遍历起始点
 
 ### 按奇偶数排序数组
 
