@@ -77,5 +77,5 @@ let firstMissingPositive1 = function (arr) {
 
 export default firstMissingPositive1;
 
-// debugger
-// console.log(firstMissingPositive([1, 2, 0]));
+debugger
+console.log(firstMissingPositive([1, 2, 0]));
