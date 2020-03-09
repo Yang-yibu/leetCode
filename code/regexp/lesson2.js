@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * 字符串 s 是否符合 模式 p 的规律
  * @param {string} s 字符串

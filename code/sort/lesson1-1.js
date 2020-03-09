@@ -1,3 +1,4 @@
+/* eslint-disable */
 
 // 冒泡排序
 let bubbleSort = (arr) => {

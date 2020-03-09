@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * 反转字符串中的单词 reverseWords
  * @param {string} s

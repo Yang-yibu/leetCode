@@ -1,3 +1,4 @@
+/* eslint-disable */
 import isMatch from "../../code/regexp/lesson2";
 
 test('isMatch: aa, a', () => {

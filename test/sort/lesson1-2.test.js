@@ -1,3 +1,4 @@
+/* eslint-disable */
 import selectionSort from '../../code/sort/lesson1-2';
 
 

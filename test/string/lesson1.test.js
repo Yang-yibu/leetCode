@@ -1,3 +1,4 @@
+/* eslint-disable */
 import reverseWords from '../../code/string/lesson1'
 
 test('reverseWords：原字符串单个空格', () => {

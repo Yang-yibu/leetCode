@@ -1,3 +1,4 @@
+/* eslint-disable */
 import repeatSubString from "../../code/regexp/lesson1";
 
 test('repeatSubstring: abcabc', () => {

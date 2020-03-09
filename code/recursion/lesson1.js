@@ -1,3 +1,4 @@
+/* eslint-disable */
 
 /**
  * 根据字符串复原 IP 地址

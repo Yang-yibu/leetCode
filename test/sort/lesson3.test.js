@@ -1,3 +1,4 @@
+/* eslint-disable */
 import maxGap from "../../code/sort/lesson3";
 
 test('maxGap: 1', () => {

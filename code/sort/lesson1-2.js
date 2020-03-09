@@ -1,3 +1,4 @@
+/* eslint-disable */
 
 let selectionSort = (arr) => {
     let start = 0, len = arr.length;

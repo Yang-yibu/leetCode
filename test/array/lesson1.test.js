@@ -1,3 +1,4 @@
+/* eslint-disable */
 import telComb from '../../code/array/lesson1';
 
 test('telComb: 23', () => {

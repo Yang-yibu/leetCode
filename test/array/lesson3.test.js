@@ -1,3 +1,4 @@
+/* eslint-disable */
 import flowers from '../../code/array/lesson3';
 
 test('flowers: [1, 0, 0, 0, 1], 1', () => {

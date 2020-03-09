@@ -1,3 +1,4 @@
+/* eslint-disable */
 
 /**
  * 基础：快速排序

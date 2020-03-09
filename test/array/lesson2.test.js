@@ -1,3 +1,4 @@
+/* eslint-disable */
 import cardGroup, { gcd } from '../../code/array/lesson2';
 
 // test('gcd: ', () => {

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import firstMissingPositive from "../../code/sort/lesson4";
 
 let methodName = 'firstMissingPositive';

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import subStr from '../../code/string/lesson2';
 
 test('subStr: 00110011', () => {

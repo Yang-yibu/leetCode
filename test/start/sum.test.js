@@ -1,3 +1,4 @@
+/* eslint-disable */
 import sum from '../../code/start/sum';
 
 test('add 1+2=3', () => {

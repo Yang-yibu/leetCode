@@ -1,3 +1,4 @@
+/* eslint-disable */
 
 /**
  * @param {number[]} flowerbed 花坛 [1, 0, 0, 0, 1]

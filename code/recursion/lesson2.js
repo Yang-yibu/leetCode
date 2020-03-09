@@ -1,3 +1,4 @@
+/* eslint-disable */
 // TODO: 不太理解
 /**
  * 串联单词子串

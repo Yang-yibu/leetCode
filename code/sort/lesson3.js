@@ -1,3 +1,4 @@
+/* eslint-disable */
 
 // 常规 sort 排序
 let maxGap = (arr) => {

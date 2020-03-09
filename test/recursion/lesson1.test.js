@@ -1,3 +1,4 @@
+/* eslint-disable */
 
 import recursion from "../../code/recursion/lesson1";
 

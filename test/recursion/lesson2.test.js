@@ -1,3 +1,4 @@
+/* eslint-disable */
 
 import words from '../../code/recursion/lesson2';
 

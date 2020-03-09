@@ -1,3 +1,4 @@
+/* eslint-disable */
 import sort from '../../code/sort/lesson1-3';
 
 

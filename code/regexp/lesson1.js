@@ -1,3 +1,4 @@
+/* eslint-disable */
 
 /**
  * 重复的子字符串

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import findKthLargest from "../../code/sort/lesson2";
 
 test('findKthLargest: 1', () => {
