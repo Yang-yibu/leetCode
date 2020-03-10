@@ -2,6 +2,7 @@
 
 /**
  * countBinarySubstrings
+ * 计算二进制子串
  */
 
 // export default (str) => {
@@ -28,7 +29,7 @@ export default (str) => {
     function match (s) {
         // 从字符串起始 找到连续的 0 或 1
         let j = s.match(/^(0+|1+)/)[0];
-        
+
         // let o = (j[0] * 1 ? 0: 1).toString().repeat(j.length);
         let o = (j[0] ^ 1).toString().repeat(j.length);
 

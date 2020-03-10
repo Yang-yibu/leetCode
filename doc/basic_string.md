@@ -22,14 +22,20 @@ String.prototype.split(separator, howmany)
 // 参数：字符串 或者 正则表达式
 // \w：匹配字母数字下划线
 // \s： 任何空白字符
-// TODO: 正则不使用 g 标志
+// 正则使用 g 标志位：正则匹配的所有结果组成的列表
+// 不使用 g 标志位：在字符串中执行一次匹配；匹配不到返回 null
+  // 匹配到返回一个数组： 0-匹配的的文本；其余元素存放正则子表达式匹配的文本；index-匹配字符串在源字符串中的位置；input-源字符串的引用
 String.prototype.match
 
 Array.prototype.map
+
 // 反转数组中的方法，返回原数组引用（更改原数组）
 Array.prototype.reverse
+
 Array.prototype.join
 ```
+
+![JS - match](./assets/2020-03-10-22-22-26.png)
 
 ### 2 计数二进制子串
 
@@ -37,7 +43,7 @@ Array.prototype.join
 
 
 <img src="./assets/2.4.png" alt="解题思路" width="500" />
-
+通过画“辅助线”寻找规律
 
 数据结构：
 
@@ -50,7 +56,7 @@ Array.prototype.join
 
 ```js
 /**
- * 提取字符串
+ * 提取某个字符串的一部分并返回新的字符串
  */ 
 String.prototype.slice
 String.prototype.match
