@@ -8,6 +8,15 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Node Debug curFile",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${file}"
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Jest Debug CurTestFile",
       "program": "${workspaceFolder}/node_modules/jest/bin/jest",
       "runtimeArgs": [
