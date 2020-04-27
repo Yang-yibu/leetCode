@@ -22,6 +22,12 @@ npx babel-node ./code/start/sum.js
 
 # 执行单个测试文件
 npx jest ./test/...
+
+# 断点调试
+# 在谷歌控制台，添加连接 127.0.0.1：9999 后，启动服务后，会在 debugger 处停止运行
+# --inspect-brk：程序一开始就暂停
+# 端口默认 9229
+node --inspect=9999 node_modules/.bin/jest --runInBand test/day/1.js
 ```
 
 ## Jest API
