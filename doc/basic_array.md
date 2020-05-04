@@ -21,6 +21,50 @@
 
 <img alt="思路 2" src="./assets/2019-05-30-19-27-14.png" width="1000" />
 
+```js
+/**
+ * @param start - 修改的开始位置
+ * @param deleteCount - 删除的数量
+ * @return 被删除元素组成的数组
+ */
+Array.prototype.splice(start[, deleteCount[, item1[, item2[, ...]]]])
+
+/**
+ * 根据 start 与 end 提取数组元素，并返回新数组
+ * @param {number} [start = 0] - 包含当前；负数表示倒数；
+ * @param {number} [end] - 不包含（-1 表示倒数第一个）；省略表示截取到结尾；负数表示倒数；大于数组长度表示到数组末尾
+ * @return 含有提取元素的新数组
+ */
+Array.prototype.slice(start, end)
+
+/**
+ * 获取字符串的子串
+ * @return 返回 start 与 end 之间的子串
+ * @param {number} indexStart - 截取的第一个字符的索引（包含当前索引）
+ * @param {number=} indexEnd - 可选；结束索引（不包含当前索引）；取值为 [0, str.length]
+ * 
+ * @desc
+ * 1. indexStart === indexEnd: 返回空串
+ * 2. indexEnd 省略：提取到末尾
+ * 3. 参数小于 0 或 NaN，默认为 0
+ * 4. 大于 str.length, 当作 str.length
+ */
+String.prototype.substring(indexStart, indexEnd)
+/**
+ * 获取字符串的子串
+ * @return 
+ * @param {number} beginIndex - 字符串中字符下标，从索引处提取字符；负数意味倒数（strLength + beginIndex）
+ * @param {number=} endIndex - 可选；省略则为 str.length；负数意味倒数
+ */
+String.prototype.slice(beginIndex, endIndex)
+```
+
+[回溯算法](https://baike.baidu.com/item/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/9258495)：是一个类似枚举的搜索尝试过程，主要是在搜索尝试过程中寻找问题的解，当发现不满足求解条件时，就“回溯”返回，尝试别的路径。
+
+回溯算法解决问题的一般步骤：
+- 针对所给问题，定义问题的解空间，至少包含问题的一个（最优）解
+- 确定易于搜索的解空间结构，使得能用回溯法方便的搜索整个解空间
+- 以深度优先的方式搜索解空间
 
 ### 卡牌分组
 

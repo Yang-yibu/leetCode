@@ -8,6 +8,14 @@ let telComb = (str) => {
   let map = ['', 1, 'abc', 'def', 'ghi', 'jkl', 'mno', 'pqrs', 'tuv', 'wxyz'];
   let numArr = str.split('');
 
+  // 处理特殊情况
+  if (!numArr.length) {
+    return []
+  }
+  if (numArr.length === 1) {
+    return map[str].split('')
+  }
+
   let code = [];
   numArr.forEach(item => {
     // if (map[item]) {
@@ -29,7 +37,11 @@ let telComb = (str) => {
     }
 
     // 把前两个数组组合完成后，用 temp 替代
-    // arr.slice(0, 2, temp);
+    // arr.slice(0, 2, temp); // 错误
+
+    // debugger
+    // arr = [temp, ...arr.slice(2)];
+    // 或
     arr.splice(0, 2, temp);
 
     if (arr.length > 1) {
@@ -84,5 +96,6 @@ let telComb1 = (numStr) => {
 // export default telComb;
 // telComb1('23')
 
-export default telComb1;
+export default telComb;
+// export default telComb1;
 // telComb1('23')
