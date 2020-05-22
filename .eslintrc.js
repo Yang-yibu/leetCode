@@ -1,3 +1,3 @@
 module.exports = {
-  "extends": ["standard", "plugin:jest/recommended"]
+  "extends": ["standard", "plugin:jest/recommended", "plugin:prettier/recommended"]
 };
