@@ -17,6 +17,22 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "NodeBabel Debug curFile",
+      "program": "${file}",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/babel-node",
+      "stopOnEntry": false,
+      "env": {
+        "BABEL_ENV": "debug"
+      },
+      "sourceMaps": true,
+      // "outFiles": [
+        // "${workspaceFolder}/output"
+      // ],
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Jest Debug CurTestFile",
       "program": "${workspaceFolder}/node_modules/jest/bin/jest",
       "runtimeArgs": [
