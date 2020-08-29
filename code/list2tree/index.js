@@ -1,3 +1,11 @@
+/**
+ * @file 列表转树
+ */
+
+/**
+ * 列表转树
+ * @param {Array} list 源列表
+ */
 function list2tree(list) {
   const group = {};
   list.forEach((item) => {
@@ -59,3 +67,6 @@ var list = [
 
 let result = list2tree2(list);
 console.log(JSON.stringify(result, '', '  '));
+
+// TODO: zTree 的实现方式
+// https://github.com/zTree/zTree_v3
