@@ -5,12 +5,17 @@
 // 语句 2：执行循环的条件，true 时执行
 // 语句 1：每次循环执行后执行
 
+// import { default as aObj, aa } from './export';
+// import a from './export';
+// debugger
+// console.log(aObj, aa);
+
 /**
  * 字节单位换算
  * @param {number} nBytes - 待转换的数字
  * @param {number} unit - 进制
  */
-function byteConvert(nBytes, unit = 1024) {
+export function byteConvert(nBytes, unit = 1024) {
   let sOutput = nBytes + ' bytes';
 
   const aMultiples = ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
@@ -22,5 +27,5 @@ function byteConvert(nBytes, unit = 1024) {
   return sOutput;
 }
 
-byteConvert(1000 * 1000 * (1000 + 100), 1000);
+// byteConvert(1000 * 1000 * (1000 + 100), 1000);
 byteConvert(1024 * 1024 * (1024 + 100));
