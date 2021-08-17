@@ -26,7 +26,11 @@ function list2tree(list) {
   return group['null'];
 }
 
-function list2tree2(list, { valRootPid = 'null', propPid = 'parentId' } = {}, processItem) {
+function list2tree2(
+  list,
+  { valRootPid = 'null', propPid = 'parentId', idKey = 'id', childrenKey = 'children' } = {},
+  processItem
+) {
   let listTmp = list;
   if (typeof processItem === 'function') {
     listTmp = list.map((item) => {
@@ -45,9 +49,9 @@ function list2tree2(list, { valRootPid = 'null', propPid = 'parentId' } = {}, pr
   });
 
   listTmp.forEach(function (item) {
-    var id = item.id;
+    var id = item[idKey];
     if (group.hasOwnProperty(id)) {
-      item.children = group[id];
+      item[childrenKey] = group[id];
     }
   });
 
