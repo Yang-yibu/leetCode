@@ -26,7 +26,9 @@ export default function toServerTkTimes(tkTimes, startDate, endDate, serverTimes
 		serverTimesMap[key] = item;
 	});
 
-	const times = [];
+  const times = [];
+  tkTimes = tkTimes.filter(item => Array.isArray(item.time) && item.time[0] && item.time[1])
+
 	dateRangeDays(startDate, endDate).map(date => {
 		tkTimes.map(item => {
 			const start = `${date} ${item.time[0]}`;
