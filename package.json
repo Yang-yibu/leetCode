@@ -1,6 +1,7 @@
 {
   "name": "leet_code",
   "version": "1.0.0",
+  "type": "module",
   "description": "leetCode",
   "main": "index.js",
   "scripts": {
@@ -24,6 +25,7 @@
     "babel-preset-env": "1.7.0",
     "eslint-plugin-jest": "22.0.0",
     "jest": "23.6.0",
+    "moment": "^2.29.1",
     "regenerator-runtime": "0.12.1"
   },
   "devDependencies": {

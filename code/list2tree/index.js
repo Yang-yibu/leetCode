@@ -26,7 +26,18 @@ function list2tree(list) {
   return group['null'];
 }
 
-function list2tree2(
+/**
+ * 列表转树
+ * @param {[]} list 源列表
+ * @param {object} p
+ * @param {string} p.valRootPid 根节点值
+ * @param {string} p.propPid pId 字段名
+ * @param {string} p.idKey id 字段名
+ * @param {string} p.childrenKey children 字段名
+ * @param {Function} processItem 处理节点其他属性数据
+ * @returns
+ */
+ export function list2tree2 (
   list,
   { valRootPid = 'null', propPid = 'parentId', idKey = 'id', childrenKey = 'children' } = {},
   processItem
@@ -34,7 +45,7 @@ function list2tree2(
   let listTmp = list;
   if (typeof processItem === 'function') {
     listTmp = list.map((item) => {
-      let itemTmp = processItem({ ...item }) || item;
+      let itemTmp = processItem({ ...item }) || item ;
       return itemTmp;
     });
   }
