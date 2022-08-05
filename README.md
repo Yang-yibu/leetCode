@@ -1,5 +1,7 @@
 # Javascript 算法与数据结构
 
+[相关笔记说明](./doc/basic.md)
+
 ## 项目分支说明
 
 ```bash

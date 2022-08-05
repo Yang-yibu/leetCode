@@ -57,6 +57,44 @@ function list2tree2(
 
   return group[valRootPid];
 }
+// zTree tree2List
+function tree2List(nodes, conf, pNode = {}) {
+  conf = Object.assign(
+    {},
+    {
+      childrenKey: 'children',
+      processNode: function (node) {
+        return node;
+      },
+    },
+    conf
+  );
+  if (!nodes) return [];
+  var result = [];
+  if (Array.isArray(nodes)) {
+    for (let i = 0, len = nodes.length; i < len; i++) {
+      _do(nodes[i], pNode);
+    }
+  } else {
+    _do(nodes);
+  }
+  return result;
+
+  function _do(_n, _pNode = {}) {
+    let _node = { ..._n };
+    let childrenArr = _node[conf.childrenKey];
+    delete _node[conf.childrenKey];
+    result.push(conf.processNode(_node, _pNode));
+    if (childrenArr) {
+      result = result.concat(tree2List(childrenArr, conf, _node));
+    }
+  }
+}
+
+function treeHasChecked(nodes, conf) {
+  let ns = tree2List(nodes, conf).filter((item) => item[conf.checkedKey]);
+  return list2tree(ns, conf);
+}
 
 var list = [
   { id: 1, name: 'child1', parentId: 0 },
