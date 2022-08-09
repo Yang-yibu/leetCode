@@ -11,7 +11,7 @@
  * @property {'string'|'number'} type 参数类型
  * @property {boolean=} isMul 允许多值
  * - SQL 可以用 `=` 代替 `in` 操作符
- * - 使用 in 时，主动使用 () 包裹参数
+ * - 使用 in 时，主动使用 `()` 包裹参数
  * @property {boolean=} isNull 允许为空
  * @property {number} order 排序
  * @property {object} row 参数原始信息
@@ -67,8 +67,9 @@ class SqlParse {
     let _sql;
     if (typeof sql === 'string') {
       _sql = [];
-      sql.split(SqlParse.regCondition_s).
-        map(i => {
+      sql.split(SqlParse.regCondition_s).map(i => {
+        if (!i) return;
+
         if (i.indexOf('{{') > -1 && i.indexOf('{{') > -1 ) {
           // 条件部分
           const part = { sql: i, _sql: i.replace(SqlParse.regCondition_r, '$1'), isCondition: true, params: [] }
@@ -92,7 +93,10 @@ class SqlParse {
       throw new Error('请输入 SQL 字符串')
     }
   }
-  setParams(params) {
+  /**
+   *
+   */
+  setParams(params = []) {
     this.#paramsConfig = params || []
   }
 
@@ -127,6 +131,8 @@ class SqlParse {
   buildSql() {
     const paramsConfig = this.#paramsConfig;
     const sqlPart = this.#sqlPart;
+    /** 给值拼接单引号 */
+    const isQuote = true;
 
     /** @type {{[prop: string]: IParam}} */
     const MapParam = {};
@@ -139,35 +145,66 @@ class SqlParse {
       if (item.isCondition) {
         // 最小条件里只有一个参数
         const paramConf = MapParam[item.params[0]]
+
         if (paramConf) {
           const val = paramConf.value || paramConf.defaultVal;
           if (!val && paramConf.isNull) {
             sql = '1=1'
           } else if (paramConf.isMul) {
             if (sql.indexOf('=') > -1) {
-              val = val.split(',').map(i => "'" + i + "'").join(',')
+              // 有等号 自动处理为 in 形式
+              if (isQuote) {
+                val = val.split(',').map(i => "'" + i + "'").join(',')
+              }
+
               sql = sql.replace('=', 'in').replace(SqlParse.regParameter_r, '(' + val + ')')
             } else if (sql.indexOf('in') > -1) {
-              val = val.split(',').map(i => "'" + i + "'").join(',')
+              // 已经是 in 形式
+              if (isQuote) {
+                val = val.split(',').map(i => "'" + i + "'").join(',')
+              }
+
               sql = sql.replace(SqlParse.regParameter_r, val)
             } else {
-              sql = sql.replace(SqlParse.regCondition_r, "'$1'")
+              // 目前看其他不应当出现的 条件 是不合理的
+              val = isQuote ? "'$1'": "$1"
+
+              sql = sql.replace(SqlParse.regCondition_r, val)
             }
           } else {
-            sql = sql.replace(SqlParse.regParameter_r, "'$1'")
+            // 合法 单值
+            sql = sql.replace(SqlParse.regParameter_r, function (match, p1) {
+              return isQuote? "'" + val + "'": val
+            })
           }
+        } else {
+          // 使用的不合法参数 - 或者匹配有问题
+          sql = item._sql.replace(SqlParse.regParameter_r, function (match, p1) {
+            return isQuote? "'" + p1 + "'": p1
+          })
         }
       } else {
         // 其他模块可能有多个参数，不做或者不需要做特殊处理
-        item.sql.replace(SqlParse.regParameter_r, function (match, p1) {
+
+        sql = sql.replace(SqlParse.regParameter_r, function (match, p1) {
           const paramConf = MapParam[p1]
           if (paramConf) {
             const val = paramConf.value || paramConf.defaultVal;
             if (!val && paramConf.isNull) {
-              return val
+              // return val
+            } else if (paramConf.isMul) {
+              if (isQuote) {
+                val = val.split(',').map(i => "'" + i + "'").join(',')
+              }
+            } else {
+              if (isQuote) {
+                val = "'" + val + "'"
+              }
             }
+            return val
+          } else {
+            return isQuote? "'" + p1 + "'" : p1
           }
-          return sql.replace(SqlParse.regParameter_r, "'$1'")
         })
       }
 
@@ -176,62 +213,6 @@ class SqlParse {
 
     return { runSql: sql_parts.join(''), originSql: this.#sql }
   }
-
-  /**
-   * SQL 按 参数条件 切分为几部分
-   * @param {String} sql sql 语句
-   * @returns
-   */
-  static getSqlPartOfCondition(sql = '') {
-    let result;
-    result = sql.split( SqlParse.regCondition_s).filter(i => i);
-    console.log('按条件分割 SQL：\n', JSON.stringify(result, null, '  '));
-    return result;
-  }
-  /**
-   * 获取包含自定义参数的条件表达式
-   * @param {String} sqlStr sql 语句
-   * @returns {string[]?} 参数名集合
-   */
-  static getConditionWithParameters(sqlStr = '') {
-    let result;
-    result = sqlStr.match(SqlParse.regCondition);
-    if (result) {
-      result = result.map(item => {
-        return item.replace(SqlParse.regCondition_r, '$1')
-      })
-    }
-
-    console.log('获取包含参数的条件：\n' ,result);
-    return result;
-  }
-  /**
-   * 获取所有参数
-   * @param {String} sqlStr sql 语句
-   * @returns {string[]?} 参数名集合
-   */
-  static getParameter(sqlStr = '') {
-    let result;
-    result = sqlStr.match(SqlParse.regParameter);
-    if (result) {
-      result = result.map(item => {
-        return item.replace(SqlParse.regParameter_r, '$1')
-      })
-    }
-
-    console.log('获取参数：\n', result);
-    return result;
-  }
 }
 
-/** SQL 模板 */
-const sqlArr = {
-  /** where 条件具有参数 */
-  whereParams:
-    'select * from 基础表_会计管理数据_会计科目表 where 1=1 \n and {{ 会计科目编码 = ${@会计科目编码} }} \n and {{ 会计年度 in ${@会计年度} }}',
-  /** 查询字段 & where 有参数 */
-  colWhereParams: 'select ${@会计年度}, 会计科目编码, 会计科目名称, 会计年度 from 基础表_会计管理数据_会计科目表 WHERE 1 = 1 and 会计科目编码 = 1001 and {{ 会计年度 = ${@会计年度} }} and {{会计 = 会计}}'
-};
-
-const wp = new SqlParse(sqlArr.whereParams)
-wp.buildSql()
+export default SqlParse
