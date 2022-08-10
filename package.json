@@ -1,7 +1,6 @@
 {
   "name": "leet_code",
   "version": "1.0.0",
-  "type": "module",
   "description": "leetCode",
   "main": "index.js",
   "scripts": {
