@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-template-curly-in-string */
 
 /**
@@ -60,55 +61,65 @@ class SqlParse {
     this.setParams(params);
   }
   getSql() {
-    return this.sql
+    return this.sql;
   }
   setSql(sql = '') {
     /** @type {IPart[]} */
     let _sql;
     if (typeof sql === 'string') {
       _sql = [];
-      sql.split(SqlParse.regCondition_s).map(i => {
+      sql.split(SqlParse.regCondition_s).map((i) => {
         if (!i) return;
 
-        if (i.indexOf('{{') > -1 && i.indexOf('{{') > -1 ) {
+        if (i.indexOf('{{') > -1 && i.indexOf('{{') > -1) {
           // 条件部分
-          const part = { sql: i, _sql: i.replace(SqlParse.regCondition_r, '$1'), isCondition: true, params: [] }
+          const part = {
+            sql: i,
+            _sql: i.replace(SqlParse.regCondition_r, '$1'),
+            isCondition: true,
+            params: [],
+          };
           i.replace(SqlParse.regParameter_r, function (match, p1) {
-            part.params.push(p1)
-          })
-          _sql.push(part)
+            part.params.push(p1);
+          });
+          _sql.push(part);
         } else {
           /** @type {IPart} */
-          const part = { sql: i, _sql: i.replace(SqlParse.regParameter_r, '$1'), isCondition: false, params: [] }
+          const part = {
+            sql: i,
+            _sql: i.replace(SqlParse.regParameter_r, '$1'),
+            isCondition: false,
+            params: [],
+          };
           i.replace(SqlParse.regParameter_r, function (match, p1) {
-            part.params.push(p1)
-          })
-          _sql.push(part)
+            part.params.push(p1);
+          });
+          _sql.push(part);
         }
       });
 
-      this.#sql = sql
-      this.#sqlPart = _sql
+      this.#sql = sql;
+      this.#sqlPart = _sql;
     } else {
-      throw new Error('请输入 SQL 字符串')
+      throw new Error('请输入 SQL 字符串');
     }
   }
   /**
    *
    */
   setParams(params = []) {
-    this.#paramsConfig = params || []
+    this.#paramsConfig = params || [];
   }
 
   /** 获取 SQL 中使用的参数 */
   getUsedParam() {
-    let params = []
-    this.#sqlPart.map(item => {
-      item.params.map(p => {
+    let params = [];
+    this.#sqlPart.map((item) => {
+      item.params.map((p) => {
         if (params.indexOf(p) === -1) {
-          params.push(p)
+          params.push(p);
         }
-      })
+      });
 
       // let result = item.sql.match(SqlParse.regParameter)
       // if (result) {
@@ -119,7 +130,7 @@ class SqlParse {
       //     }
       //   })
       // }
-    })
+    });
 
     console.log('SQL 中使用的参数: ', params);
     return params;
@@ -136,83 +147,92 @@ class SqlParse {
 
     /** @type {{[prop: string]: IParam}} */
     const MapParam = {};
-    paramsConfig.map(item => {
-      MapParam[item.name] = item
-    })
+    paramsConfig.map((item) => {
+      MapParam[item.name] = item;
+    });
 
-    const sql_parts = sqlPart.map(item => {
-      let sql = item.sql
+    const sql_parts = sqlPart.map((item) => {
+      let sql = item.sql;
       if (item.isCondition) {
         // 最小条件里只有一个参数
-        const paramConf = MapParam[item.params[0]]
+        const paramConf = MapParam[item.params[0]];
 
         if (paramConf) {
-          const val = paramConf.value || paramConf.defaultVal;
+          let val = paramConf.value || paramConf.defaultVal;
           if (!val && paramConf.isNull) {
-            sql = '1=1'
+            sql = '1=1';
           } else if (paramConf.isMul) {
             if (sql.indexOf('=') > -1) {
               // 有等号 自动处理为 in 形式
               if (isQuote) {
-                val = val.split(',').map(i => "'" + i + "'").join(',')
+                val = val
+                  .split(',')
+                  .map((i) => "'" + i + "'")
+                  .join(',');
               }
 
-              sql = sql.replace('=', 'in').replace(SqlParse.regParameter_r, '(' + val + ')')
+              sql = sql.replace('=', 'in').replace(SqlParse.regParameter_r, '(' + val + ')');
             } else if (sql.indexOf('in') > -1) {
               // 已经是 in 形式
               if (isQuote) {
-                val = val.split(',').map(i => "'" + i + "'").join(',')
+                val = val
+                  .split(',')
+                  .map((i) => "'" + i + "'")
+                  .join(',');
               }
 
-              sql = sql.replace(SqlParse.regParameter_r, val)
+              sql = sql.replace(SqlParse.regParameter_r, val);
             } else {
               // 目前看其他不应当出现的 条件 是不合理的
-              val = isQuote ? "'$1'": "$1"
+              val = isQuote ? "'$1'" : '$1';
 
-              sql = sql.replace(SqlParse.regCondition_r, val)
+              sql = sql.replace(SqlParse.regCondition_r, val);
             }
           } else {
             // 合法 单值
             sql = sql.replace(SqlParse.regParameter_r, function (match, p1) {
-              return isQuote? "'" + val + "'": val
-            })
+              return isQuote ? "'" + val + "'" : val;
+            });
           }
         } else {
           // 使用的不合法参数 - 或者匹配有问题
           sql = item._sql.replace(SqlParse.regParameter_r, function (match, p1) {
-            return isQuote? "'" + p1 + "'": p1
-          })
+            return isQuote ? "'" + p1 + "'" : p1;
+          });
         }
       } else {
         // 其他模块可能有多个参数，不做或者不需要做特殊处理
 
         sql = sql.replace(SqlParse.regParameter_r, function (match, p1) {
-          const paramConf = MapParam[p1]
+          const paramConf = MapParam[p1];
           if (paramConf) {
-            const val = paramConf.value || paramConf.defaultVal;
+            let val = paramConf.value || paramConf.defaultVal;
             if (!val && paramConf.isNull) {
               // return val
             } else if (paramConf.isMul) {
               if (isQuote) {
-                val = val.split(',').map(i => "'" + i + "'").join(',')
+                val = val
+                  .split(',')
+                  .map((i) => "'" + i + "'")
+                  .join(',');
               }
             } else {
               if (isQuote) {
-                val = "'" + val + "'"
+                val = "'" + val + "'";
               }
             }
-            return val
+            return val;
           } else {
-            return isQuote? "'" + p1 + "'" : p1
+            return isQuote ? "'" + p1 + "'" : p1;
           }
-        })
+        });
       }
 
-      return sql
-    })
+      return sql;
+    });
 
-    return { runSql: sql_parts.join(''), originSql: this.#sql }
+    return { runSql: sql_parts.join(''), originSql: this.#sql };
   }
 }
 
-export default SqlParse
+export default SqlParse;

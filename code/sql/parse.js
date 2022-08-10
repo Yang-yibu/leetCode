@@ -1,4 +1,4 @@
-/* eslint-disable no-template-curly-in-string */
+/* eslint-disable */
 
 /** 条件匹配器 */
 const regCondition = /\{\{((?!\{\{|\}\}).)*\}\}/g;
@@ -107,3 +107,4 @@ console.log(s);
 // 'aaa'.replace(regParameter_r, function (match, p1) {
   // console.log(match, p1);
 // })
+

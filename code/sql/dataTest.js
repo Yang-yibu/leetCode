@@ -2,7 +2,10 @@
 export function removeWhiteSpace(sql = '') {
   if (!sql) return '';
   if (typeof sql !== 'string') return;
-  return sql.split(/\s+/).filter(i => i).join(' ');
+  return sql
+    .split(/\s+/)
+    .filter((i) => i)
+    .join(' ');
 }
 
 /** SQL 模板 */
@@ -13,12 +16,12 @@ export const sqlArr = {
     and {{ 会计科目编码 = \${@会计科目编码} }}
     and {{ 会计年度 = \${@会计年度} }}
     and {{ 会计年度 in \${@会计年度} }}`,
-    params: ['@会计年度', '@会科年', '@会计科目编码', ],
+    params: ['@会计年度', '@会科年', '@会计科目编码'],
   },
   colWhereParams: {
-    sql: 'select ${@会计年度}, @会科年, ${@会科年}, 会计科目编码, 会计科目名称, 会计年度 from 基础表_会计管理数据_会计科目表 WHERE 1 = 1 and 会计科目编码 = 1001 and {{ 会计年度 = ${@会计年度} }} and {{会计 = 会计}}',
-    params: ['@会计年度', '@会科年']
-  }
+    sql: `select \${@会计年度}, @会科年, \${@会科年}, 会计科目编码, 会计科目名称, 会计年度 from 基础表_会计管理数据_会计科目表 WHERE 1 = 1 and 会计科目编码 = 1001 and {{ 会计年度 = \${@会计年度} }} and {{会计 = 会计}}`,
+    params: ['@会计年度', '@会科年'],
+  },
 };
 
 /**
@@ -32,20 +35,29 @@ export function getParams(param, isMul = false, isNull = false) {
   const params = {
     // 亦可模拟普通的单值
     有默认值: {
-      name: '@会计年度', type: 'string',
-      defaultVal: '默认值', value: '',
-      isMul: isMul, isNull: isNull
+      name: '@会计年度',
+      type: 'string',
+      defaultVal: '默认值',
+      value: '',
+      isMul: isMul,
+      isNull: isNull,
     },
     有值: {
-      name: '@会计年度', type: 'string',
-      defaultVal: '', value: '1,2,3',
-      isMul: isMul, isNull: isNull
+      name: '@会计年度',
+      type: 'string',
+      defaultVal: '',
+      value: '1,2,3',
+      isMul: isMul,
+      isNull: isNull,
     },
     无值: {
-      name: '@会计年度', type: 'string',
-      defaultVal: '', value: '',
-      isMul: isMul, isNull: isNull
-    }
-  }
-  return { ...params[param] }
+      name: '@会计年度',
+      type: 'string',
+      defaultVal: '',
+      value: '',
+      isMul: isMul,
+      isNull: isNull,
+    },
+  };
+  return [{ ...params[param] }];
 }
