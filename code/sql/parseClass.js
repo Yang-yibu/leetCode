@@ -25,6 +25,13 @@
  * @property {string[]} params 使用的参数
  */
 
+/**
+ * SQL 参数解析
+ * - `{{  }}`
+ * - - 处理 SQL 条件表达式
+ * - `${ }`
+ * - - 参数值替换，目前只做值替换
+ */
 class SqlParse {
   /** 条件匹配器 */
   static regCondition = /\{\{((?!\{\{|\}\}).)*\}\}/g;
@@ -156,6 +163,7 @@ class SqlParse {
       if (item.isCondition) {
         // 最小条件里只有一个参数
         const paramConf = MapParam[item.params[0]];
+        sql = item._sql;
 
         if (paramConf) {
           let val = paramConf.value || paramConf.defaultVal;
@@ -208,7 +216,9 @@ class SqlParse {
           if (paramConf) {
             let val = paramConf.value || paramConf.defaultVal;
             if (!val && paramConf.isNull) {
-              // return val
+              if (isQuote) {
+                val = "'" + val + "'";
+              }
             } else if (paramConf.isMul) {
               if (isQuote) {
                 val = val

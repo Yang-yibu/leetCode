@@ -27,13 +27,14 @@ describe('where 条件中多个参数', () => {
     const runSql = removeWhiteSpace(bs.runSql);
     expect(runSql).toBe(
       removeWhiteSpace(`
-    select '', @会科年, '@会科年', 会计科目编码, 会计科目名称 from 基础表_会计管理数据_会计科目表 where 1=1 \n
+      select '', @会科年, '@会科年', 会计科目编码, 会计科目名称 from 基础表_会计管理数据_会计科目表 where 1=1 \n
       and 会计科目编码 = '@会计科目编码'
-      and 1 = 1
-      and 1 = 1
+      and 1=1
+      and 1=1
     `)
     );
   });
+  // 无值 不允许为 NULL 不存在
 
   console.log('默认值-单值 ******************************');
   test('Test BuildSql param is right: 有默认值 isMul isNull', () => {
@@ -70,10 +71,10 @@ describe('where 条件中多个参数', () => {
     const runSql = removeWhiteSpace(bs.runSql);
     expect(runSql).toBe(
       removeWhiteSpace(`
-    select '1,2,3', @会科年, '@会科年', 会计科目编码, 会计科目名称 from 基础表_会计管理数据_会计科目表 where 1=1 \n
+    select '1','2','3', @会科年, '@会科年', 会计科目编码, 会计科目名称 from 基础表_会计管理数据_会计科目表 where 1=1 \n
     and 会计科目编码 = '@会计科目编码'
-    and 会计年度 in ('1', '2', '3')
-    and 会计年度 in ''1', '2', '3''
+    and 会计年度 in ('1','2','3')
+    and 会计年度 in '1','2','3'
     `)
     );
   });

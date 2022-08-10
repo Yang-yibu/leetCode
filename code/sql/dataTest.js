@@ -29,7 +29,7 @@ export const sqlArr = {
  * @param {'有默认值'|'有值'|'无值'} param 不包含 @ 的参数名集合
  * @param {boolean} isMul 多值
  * @param {boolean} isNull 允许为空
- * @return {{[prop: string]: import('./parseClass').IParam}}
+ * @return {import('./parseClass').IParam[]}
  */
 export function getParams(param, isMul = false, isNull = false) {
   const params = {
