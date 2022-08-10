@@ -36,7 +36,7 @@ class SqlParse {
   /** 条件匹配器 */
   static regCondition = /\{\{((?!\{\{|\}\}).)*\}\}/g;
   /** 可替换去除包裹器 replace $1 */
-  static regCondition_r = /\{\{((?:(?!\{\{|\}\}).)*)\}\}/g;
+  static regCondition_r = /\{\{\s*((?:(?!\{\{|\}\}).)*?)\s*\}\}/g;
   /**
    * 把 SQL 根据 条件 分成几部分
    */
@@ -44,7 +44,7 @@ class SqlParse {
   /** 参数匹配器 */
   static regParameter = /\$\{((?!\$\{|\{|\}).)*\}/g;
   /** 可替换去除包裹器 replace $1 */
-  static regParameter_r = /\$\{((?:(?!\$\{|\{|\}).)*)\}/g;
+  static regParameter_r = /\$\{\s*((?:(?!\$\{|\{|\}).)*?)\s*\}/g;
   /**
    * 把 SQL 根据 参数 分成几部分
    */

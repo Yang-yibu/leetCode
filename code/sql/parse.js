@@ -11,7 +11,7 @@ function logFn(group = '分组', ...log) {
 /** 条件匹配器 */
 const regCondition = /\{\{((?!\{\{|\}\}).)*\}\}/g;
 /** 可替换去除包裹器 replace $1 */
-const regCondition_r = /\{\{((?:(?!\{\{|\}\}).)*)\}\}/g;
+const regCondition_r = /\{\{\s*((?:(?!\{\{|\}\}).)*?)\s\}\}/g;
 /**
  * 把 SQL 根据 条件 分成几部分
  */
@@ -21,7 +21,7 @@ const regCondition_s = /\B(\{\{(?:(?!\{\{|\}\}).)*\}\})\B/;
 /** 参数匹配器 */
 const regParameter = /\$\{((?!\$\{|\{|\}).)*\}/g;
 /** 可替换去除包裹器 replace $1 */
-const regParameter_r = /\$\{((?:(?!\$\{|\{|\}).)*)\}/g;
+const regParameter_r = /\$\{\s*((?:(?!\$\{|\{|\}).)*?)\s*\}/g;
 const regParameter_s = /\B(\$\{(?:(?!\$\{|\}).)*\})\B/;
 
 /**
@@ -92,7 +92,8 @@ const sqlArr = {
     and {{ 会计科目编码 = \${@会计科目编码} }}
     and {{ 会计年度 in \${@会计年度} }}`,
   /** 查询字段 & where 有参数 */
-  colWhereParams: `select \${@会计年度}, 会计科目编码, 会计科目名称, 会计年度
+  colWhereParams: `select
+  \${@会计年度}, 会计科目编码, 会计科目名称, 会计年度
   from 基础表_会计管理数据_会计科目表 WHERE 1 = 1
   and 会计科目编码 = 1001
   and {{ 会计年度 = \${ @会计年度 } }}
