@@ -51,17 +51,17 @@ class SqlParse {
   static regParameter_s = /\B(\$\{(?:(?!\$\{|\}).)*\})\B/;
 
   /** SQL 字符串 */
-  #sql = '';
+  private_sql = '';
   /**
    * SQL 按条件 `{{ 条件 }}` 分割为几部分
    * @type {IPart[]}
    */
-  #sqlPart = [];
+  private_sqlPart = [];
   /**
    * 参数配置列表
    * @type {IParam[]}
    */
-  #paramsConfig = [];
+  private_paramsConfig = [];
 
   constructor(sql, params) {
     this.setSql(sql);
@@ -105,8 +105,8 @@ class SqlParse {
         }
       });
 
-      this.#sql = sql;
-      this.#sqlPart = _sql;
+      this.private_sql = sql;
+      this.private_sqlPart = _sql;
     } else {
       throw new Error('请输入 SQL 字符串');
     }
@@ -115,13 +115,13 @@ class SqlParse {
    *
    */
   setParams(params = []) {
-    this.#paramsConfig = params || [];
+    this.private_paramsConfig = params || [];
   }
 
   /** 获取 SQL 中使用的参数 */
   getUsedParam() {
     let params = [];
-    this.#sqlPart.map((item) => {
+    this.private_sqlPart.map((item) => {
       item.params.map((p) => {
         if (params.indexOf(p) === -1) {
           params.push(p);
@@ -147,8 +147,8 @@ class SqlParse {
    * 根据 参数配置 生成 SQL
    */
   buildSql() {
-    const paramsConfig = this.#paramsConfig;
-    const sqlPart = this.#sqlPart;
+    const paramsConfig = this.private_paramsConfig;
+    const sqlPart = this.private_sqlPart;
     /** 给值拼接单引号 */
     const isQuote = true;
 
@@ -241,7 +241,7 @@ class SqlParse {
       return sql;
     });
 
-    return { runSql: sql_parts.join(''), originSql: this.#sql };
+    return { runSql: sql_parts.join(''), originSql: this.private_sql };
   }
 }
 
