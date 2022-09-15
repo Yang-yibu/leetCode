@@ -1,6 +1,6 @@
 // @ts-check
 
-import dateRangeDays from "../date/dateRangeDays";
+import dateRangeDays from '../date/dateRangeDays';
 
 /**
  * @typedef {Object} ServerTime
@@ -16,34 +16,34 @@ import dateRangeDays from "../date/dateRangeDays";
  * @param {string} endDate 终止时间 - yyyy-MM-dd HH:mm:ss
  * @param {ServerTime[]} serverTimes 服务器需要的时间段
  */
-export default function toServerTkTimes(tkTimes, startDate, endDate, serverTimes) {
-	function buildKey(start, end) {
-		return [start, end].join('至');
-	}
-	const serverTimesMap = {};
-	serverTimes.map(item => {
-		const key = buildKey(item.TK_START_DATE, item.TK_END_DATE);
-		serverTimesMap[key] = item;
-	});
+export default function toServerTkTimes(tkTimes, startDate, endDate, serverTimes = []) {
+  function buildKey(start, end) {
+    return [start, end].join('至');
+  }
+  const serverTimesMap = {};
+  serverTimes.map((item) => {
+    const key = buildKey(item.TK_START_DATE, item.TK_END_DATE);
+    serverTimesMap[key] = item;
+  });
 
   const times = [];
-  tkTimes = tkTimes.filter(item => Array.isArray(item.time) && item.time[0] && item.time[1])
+  tkTimes = tkTimes.filter((item) => Array.isArray(item.time) && item.time[0] && item.time[1]);
 
-	dateRangeDays(startDate, endDate).map(date => {
-		tkTimes.map(item => {
-			const start = `${date} ${item.time[0]}`;
-			const end = `${date} ${item.time[1]}`;
-			const key = buildKey(start, end);
+  dateRangeDays(startDate, endDate).map((date) => {
+    tkTimes.map((item) => {
+      const start = `${date} ${item.time[0]}`;
+      const end = `${date} ${item.time[1]}`;
+      const key = buildKey(start, end);
 
-			/** @type {ServerTime} */
-			const t = { TK_START_DATE: start, TK_END_DATE: end };
-			if (serverTimesMap[key]) {
-				Object.assign(t, { IS_NEW: false, TK_ID: serverTimesMap[key].TK_ID });
-			}
+      /** @type {ServerTime} */
+      const t = { TK_START_DATE: start, TK_END_DATE: end };
+      if (serverTimesMap[key]) {
+        Object.assign(t, { IS_NEW: false, TK_ID: serverTimesMap[key].TK_ID });
+      }
 
-			times.push(t);
-		});
-	});
+      times.push(t);
+    });
+  });
 
-	return times;
+  return times;
 }
