@@ -1,5 +1,3 @@
-import { dataTjfxGc } from './datasource';
-
 /**
  * @typedef CellMetaOri
  * @property {string} tableName
@@ -20,7 +18,7 @@ import { dataTjfxGc } from './datasource';
  * 获取某行所有单元格
  * @param {{[colIdx: string]: CellMeta}} rowCells 所有行
  */
-function getRowCells(rowCells) {
+export function getRowCells(rowCells) {
   const cells = [];
   Object.keys(rowCells).map((colIdx) => {
     cells.push(rowCells[colIdx]);
@@ -31,7 +29,7 @@ function getRowCells(rowCells) {
  * 获取所有行
  * @param {{[rowIdx: string]: any}} sheet
  */
-function getSheetRows(sheet) {
+export function getSheetRows(sheet) {
   const rows = [];
   Object.keys(sheet).map((rowIdx) => {
     rows.push(sheet[rowIdx]);
@@ -42,7 +40,7 @@ function getSheetRows(sheet) {
  * 获取搜索 sheet 页
  * @param {[sheet: string]: any} tpl
  */
-function getTpmSheets(tpl) {
+export function getTpmSheets(tpl) {
   const sheets = [];
   Object.keys(sheets).map((sheetName) => {
     sheets.push(tpl[sheetName]);
@@ -50,10 +48,10 @@ function getTpmSheets(tpl) {
   return sheets;
 }
 
-function getInfoStr(...arr) {
+export function getInfoStr(...arr) {
   return arr.join('-');
 }
-function getInfoArr(...str) {
+export function getInfoArr(str) {
   return str.split('-');
 }
 
@@ -63,7 +61,7 @@ function getInfoArr(...str) {
  * @param {string} rowIdx
  * @param {string} colIdx
  */
-function getAllCells(data, { limSheetName, limRowIdx, limColIdx } = {}) {
+export function getAllCells(data, { limSheetName, limRowIdx, limColIdx } = {}) {
   let sheetNames = Object.keys(data);
   if (data[limSheetName]) {
     sheetNames = [limSheetName];
@@ -85,14 +83,11 @@ function getAllCells(data, { limSheetName, limRowIdx, limColIdx } = {}) {
   return allCells;
 }
 
-const allCells = getAllCells(dataTjfxGc);
-console.log(allCells);
-
 /**
  * 构建 pos 和 数据库表字段映射信息
  * @param {CellMeta[]} allCells
  */
-function buildMapPos2TF(allCells) {
+export function buildMapPos2TF(allCells) {
   const mapPos2TF = {};
   const mapTF2Pos = {};
   allCells.map((cell) => {
@@ -104,7 +99,3 @@ function buildMapPos2TF(allCells) {
   });
   return { mapPos2TF, mapTF2Pos };
 }
-
-const metaMap = buildMapPos2TF(allCells);
-console.log(metaMap.mapPos2TF);
-console.log(metaMap.mapTF2Pos);
