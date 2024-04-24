@@ -68,6 +68,9 @@
       ],
       "cwd": "${fileDirname}",
       "sourceMaps": true,
+      // 输出在 DEBUG CONSOLE 页签中：
+      // TODO: jest 的描述文本为输出
+      // 输出在 TERMINAL 页签中，集成终端
       // "console": "integratedTerminal"
     },
     {
