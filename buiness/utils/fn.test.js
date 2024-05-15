@@ -1,4 +1,4 @@
-import { execFnBodyStr, extraFnBody, getValByPath } from './fn';
+import { execFnBodyStr, extraFnBody, getValByPath, getValByPath2 } from './fn';
 
 test('执行字符串函数体', () => {
   expect(execFnBodyStr({ a: 1, b: 2 }, 'return data.a + data.b')).toEqual(3);
@@ -19,6 +19,18 @@ test('提取函数体为字符串', () => {
 test('根据属性路径获取值', () => {
   expect(getValByPath({ a: [{ b: 1 }] }, 'a[0].b')).toEqual(1);
   expect(getValByPath([{ b: 1 }, { b: 2 }], '[0].b')).toEqual(1);
+});
+
+test('根据属性路径获取值2', () => {
+  expect(getValByPath2({ a: [{ b: 1 }] }, ['a', 0, 'b'])).toEqual(1);
+  expect(getValByPath2([{ b: 1 }, { b: 2 }], [0, 'b'])).toEqual(1);
+
+  const rec = [
+    { id: 1, name: '1', children: [{ id: '1-1', name: '1-1' }] },
+    { id: 2, name: '2', children: [{ id: '2-1', name: '2-1' }] },
+  ];
+
+  expect(getValByPath2(rec, [0, 0], '["children"]').id).toEqual('1-1');
 });
 
 var resData = {
@@ -77,4 +89,3 @@ function d(data) {
   n.FX01 = { dws1_1: '合计', dws2_1: 0, dws3_1: '0', dws4_1: 100 };
   return n;
 }
-

@@ -36,6 +36,33 @@ export function getValByPath(data, path) {
   return func(data);
 }
 
+/**
+ * 解析路径
+ * @param {any} data
+ * @param {(string|number)[]} path
+ * @returns
+ */
+export function getValByPath2(data, path, joinStr = '') {
+  return execFnBodyStr(data, 'return data' + path.map((v) => `['${v}']`).join(joinStr || ''));
+}
+
+/**
+ * 解析路径2 - vTable Tree 数据路径
+ * @param {any} data
+ * @param {(string|number)[]} path
+ * @returns
+ */
+export function getValByPath3(data, path) {
+  return execFnBodyStr(data, 'return data' + path.map((v) => `['${v}']`).join('["children"]'));
+}
+
+/** 数组位置交换 */
+export function arrSwap(arr = [], i1, i2) {
+  if (i1 < 0 || i1 >= arr.length) return;
+  if (i2 < 0 || i2 >= arr.length) return;
+  [arr[i1], arr[i2]] = [arr[i2], arr[i1]];
+}
+
 /** 分割数组，返回二维数组 */
 // export function groupArray(arr: any[] = [], subGroupLen: number) {
 export function groupArray(arr = [], subGroupLen) {
