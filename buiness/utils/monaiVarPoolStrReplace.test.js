@@ -1,4 +1,4 @@
-import { strReplace, strReplaceJson } from './strReplace';
+import { strReplace, strReplaceJson } from './monaiVarPoolStrReplace';
 
 test('执行字符串函数体', () => {
   expect(
