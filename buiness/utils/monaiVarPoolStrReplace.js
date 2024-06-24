@@ -22,14 +22,22 @@ export function strReplace(str = '', varPool = {}) {
   let reg;
   reg = /:?((?:[^\x00-\xff]|[a-zA-Z_$])(?:[^\x00-\xff]|[a-zA-Z0-9_$])*)/g;
 
-  let s = str
-    .replace(reg, function (sub, $1) {
-      if (sub.indexOf(':') === -1) {
-        return `"${sub}"`;
+  let s = str.replace(reg, function (sub, $1) {
+    if (sub.indexOf(':') === -1) {
+      return `"${sub}"`;
+    }
+    if ($1 in varPool && !varPool[$1]) {
+      if (varPool[$1] === '') {
+        return '@str';
       }
-      return varPool[$1] ? `${varPool[$1]}` : sub;
-    })
-    .replaceAll('""', '"');
+
+      return '@undef';
+    }
+    return varPool[$1] ? `${varPool[$1]}` : sub;
+  });
+  s = s.replaceAll("'", '"').replace(/"+/g, '"');
+  s = s.replaceAll('@undef', undefined);
+  s = s.replaceAll('@str', '');
 
   return s;
 }
