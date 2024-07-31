@@ -61,7 +61,7 @@ describe('顺带解析为 JSON', () => {
   });
   test('解析没有默认值', () => {
     expect(
-      strReplaceJson(`{					"kind":'"zyfl"',				"carTypeName":':clType2_yx'}`, {
+      strReplaceJson(`{					"kind":'zyfl',				"carTypeName":':clType2_yx'}`, {
         clType_gcfc: '1',
         clType2_yx: '',
       })
@@ -69,7 +69,7 @@ describe('顺带解析为 JSON', () => {
   });
   test('解析没有默认值-undefined', () => {
     expect(
-      strReplaceJson(`{					"kind":'"zyfl"',				"carTypeName":':clType2_yx'}`, {
+      strReplaceJson(`{					"kind":'zyfl',				"carTypeName":':clType2_yx'}`, {
         clType_gcfc: '1',
         // clType2_yx: '',
       })

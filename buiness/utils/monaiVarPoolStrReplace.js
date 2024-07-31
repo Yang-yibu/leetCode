@@ -18,7 +18,7 @@ function strReplace1(str = '', varPool = {}) {
 // return varPool[$1] ? `${varPool[$1]}` : sub;
 
 // 莫奈大屏变量替换
-export function strReplace(str = '', varPool = {}) {
+export function strReplace2(str = '', varPool = {}) {
   let reg;
   reg = /:?((?:[^\x00-\xff]|[a-zA-Z_$])(?:[^\x00-\xff]|[a-zA-Z0-9_$])*)/g;
 
@@ -38,6 +38,30 @@ export function strReplace(str = '', varPool = {}) {
   s = s.replaceAll("'", '"').replace(/"+/g, '"');
   s = s.replaceAll('@undef', undefined);
   s = s.replaceAll('@str', '');
+
+  return s;
+}
+
+export function strReplace(str = '', varPool = {}) {
+  let reg;
+  // reg = /"?:?((?:[^\x00-\xff]|[a-zA-Z_$])(?:[^\x00-\xff]|[a-zA-Z0-9_$])*)"?/g;
+  reg = /"?:?((?:[^\x00-\xff]|[a-zA-Z_$])(?:[^\x00-\xff]|[a-zA-Z0-9_$])*:?)"?/g;
+
+  str = str.replaceAll(/"|'/g, '');
+  let s = str.replace(reg, function (sub, $1) {
+    if (!sub.startsWith(':')) {
+      // 字段
+      return `"${$1}":`;
+    }
+    // var v = varPool[$1] ? `${varPool[$1]}` : sub;
+    var v = sub;
+    if ($1 in varPool) {
+      v = varPool[$1];
+    } else {
+      v = `"${sub}"`;
+    }
+    return v;
+  });
 
   return s;
 }
