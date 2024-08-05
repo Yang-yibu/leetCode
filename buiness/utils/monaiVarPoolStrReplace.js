@@ -42,7 +42,7 @@ export function strReplace2(str = '', varPool = {}) {
   return s;
 }
 
-export function strReplace(str = '', varPool = {}) {
+export function strReplace3(str = '', varPool = {}) {
   let reg;
   // reg = /"?:?((?:[^\x00-\xff]|[a-zA-Z_$])(?:[^\x00-\xff]|[a-zA-Z0-9_$])*)"?/g;
   reg = /"?:?((?:[^\x00-\xff]|[a-zA-Z_$])(?:[^\x00-\xff]|[a-zA-Z0-9_$])*:?)"?/g;
@@ -66,9 +66,40 @@ export function strReplace(str = '', varPool = {}) {
   return s;
 }
 
+export function strReplace4(str = '', varPool = {}) {
+  let reg = /:?((?:[^\x00-\xff]|[a-zA-Z_$])(?:[^\x00-\xff]|[a-zA-Z0-9_$])*)/g;
+  str = str
+    .replace(reg, function (sub, $1) {
+      if (sub.indexOf(':') === -1) {
+        return `"${sub}"`;
+      }
+      return varPool[$1] ? `${varPool[$1]}` : sub;
+    })
+    .replaceAll("'", '"')
+    .replaceAll('""', '"');
+
+  return str;
+}
+
+// 另个结果都是 '{"dataSource":"1"}
+// '{"dataSource":"1"}'.replace('1', '1')
+// '{"dataSource":"1"}'.replace('1', 1)
+export function strReplace5(str = '', varPool = {}) {
+  Object.keys(varPool).map((k) => {
+    str = str.replace(':' + k, varPool[k]);
+  });
+  // str = str.replace(/\n|\t/g, '');
+
+  return str;
+}
+
+export const strReplace = strReplace2;
+
 export function strReplaceJson(str = '', varPool = {}) {
   var s = strReplace(str, varPool);
   try {
+    // 最后一个字段有逗号
+    s = s.replace(/\n|\t/g, '').replace(',}', '}');
     s = JSON.parse(s);
   } catch (e) {
     console.log('解析错误：', s);

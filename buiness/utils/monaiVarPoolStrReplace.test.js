@@ -75,4 +75,16 @@ describe('顺带解析为 JSON', () => {
       })
     ).toEqual({ kind: 'zyfl', carTypeName: ':clType2_yx' });
   });
+
+  test('解析最后一个属性有逗号', () => {
+    expect(
+      // eslint-disable-next-line no-multi-str
+      strReplaceJson('{\
+"dataSource":":dSource",\
+}', {
+        dSource: '1',
+        // clType2_yx: '',
+      })
+    ).toEqual({ dataSource: '1' });
+  });
 });
