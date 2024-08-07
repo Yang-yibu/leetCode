@@ -84,10 +84,12 @@ export function strReplace4(str = '', varPool = {}) {
 // 另个结果都是 '{"dataSource":"1"}
 // '{"dataSource":"1"}'.replace('1', '1')
 // '{"dataSource":"1"}'.replace('1', 1)
+// 大部分测试都通过了
 export function strReplace5(str = '', varPool = {}) {
   Object.keys(varPool).map((k) => {
     str = str.replace(':' + k, varPool[k]);
   });
+  str = str.replaceAll("'", '"');
   // str = str.replace(/\n|\t/g, '');
 
   return str;
