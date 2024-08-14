@@ -5,11 +5,12 @@ import defaultTree from './treeAddProp_val.js';
  * @param {[]} tree - 树节点
  * @param {object} props
  * @param {string} [props.childrenProp = 'nodes']
+ * @param {number[]} [props.initPos = []]
  * @param {(node: object, pos: [number]) => object} processNode
  *
  * @description 纯函数，不会改变源数据
  */
-const treeNodeAddProp = (tree, props, processNode) => {
+const treeNodeAddProp = (tree, props, processNode = (item) => item) => {
   const { childrenProp = 'nodes', initPos = [] } = props || {};
 
   const childrenNode = (dataTrees, parentPos, pNode) => {
