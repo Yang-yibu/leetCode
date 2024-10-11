@@ -28,6 +28,7 @@ function list2tree(list) {
 
 /**
  * 列表转树
+ * - TODO: valRootPid=null 或 undefined 需要测试
  * @param {[]} list 源列表
  * @param {object} p
  * @param {string} p.valRootPid 根节点值
@@ -53,7 +54,7 @@ export function list2tree2(
   const group = {};
   listTmp.forEach((item) => {
     const parentId = item[propPid];
-    if (Object.prototype.hasOwnProperty.call(group, parentId)) {
+    if (!Object.prototype.hasOwnProperty.call(group, parentId)) {
       // if (!group.hasOwnProperty(parentId)) {
       group[parentId] = [];
     }
