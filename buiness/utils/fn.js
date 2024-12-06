@@ -12,6 +12,9 @@ export function extraFnBody(fn) {
  * - 场景：根据设置的转换函数处理返回结果
  * @param {string} fnBodyStr
  * @param {any} data
+ * @example
+ * var varPool = { a: 1 }
+ * execFnBodyStr(varPool, "return data.a === 1") === true
  */
 export function execFnBodyStr(data, fnBodyStr) {
   // eslint-disable-next-line no-new-func
