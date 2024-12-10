@@ -20,3 +20,18 @@ export function JsonFormData(source = {}) {
   // console.log(d);
   return data;
 }
+
+/** 解析 JSON 字符串 */
+export function jsonStrParse(str) {
+  try {
+    // '1' => 1
+    // 'null' => null
+    var o = JSON.parse(str);
+    if (o && typeof o === 'object') {
+      return o;
+    }
+  } catch (e) {
+    // .
+  }
+  return undefined;
+}
