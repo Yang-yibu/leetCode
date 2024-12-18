@@ -8,6 +8,12 @@ import defaultTree from './treeAddProp_val.js';
  * @param {number[]} [props.initPos = []]
  * @param {(node: object, pos: [number], pNode?: object) => object} processNode
  *
+ * @example
+ * treeNodeAddProp([{label: '1'}, '12'], {}, (node) => {
+ *  console.log(node);
+ *  return typeof node ==='string'? { label: node }: node
+ * }) // [{ label: '1'}, { label: '12'}]
+ *
  * @description 纯函数，不会改变源数据
  */
 export const treeNodeAddProp = (tree, props, processNode = (item) => item) => {
