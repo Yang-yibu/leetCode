@@ -30,3 +30,10 @@ export function arrInsertAfter2(arr, iarr, _idx) {
 
   return arr;
 }
+
+/** 数组位置交换 */
+export function arrSwap(arr = [], i1, i2) {
+  if (i1 < 0 || i1 >= arr.length) return;
+  if (i2 < 0 || i2 >= arr.length) return;
+  [arr[i1], arr[i2]] = [arr[i2], arr[i1]];
+}
