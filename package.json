@@ -29,7 +29,8 @@
     "hyperformula": "^2.7.1",
     "jest": "23.6.0",
     "moment": "^2.29.1",
-    "regenerator-runtime": "0.12.1"
+    "regenerator-runtime": "0.12.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",

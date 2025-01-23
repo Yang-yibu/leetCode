@@ -28,9 +28,9 @@ export function filterListOrTree(
 const r = filterListOrTree(
   [jdDict1],
   // '非离退休',
-  '车辆用途',
+  // '车辆用途',
+  '部级干部公务用车',
   (keywords, data) => data.dictName.includes(keywords),
   false
 );
 console.log(r);
-
