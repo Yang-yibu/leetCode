@@ -1,0 +1,49 @@
+type conf = {
+  /** 根节点值 */
+  valRootPid?: string;
+  /** pid 字段名，默认 parentId */
+  propPid?: string;
+  /** id 字段名 */
+  idKey?: string;
+  /** children 字段名 */
+  childrenKey?: string;
+};
+
+/**
+ * 列表转树
+ * - TODO: valRootPid=null 或 undefined 需要测试
+ */
+export function list2tree2<T>(
+  list: T[],
+  { valRootPid = 'null', propPid = 'parentId', idKey = 'id', childrenKey = 'children' }: conf = {},
+  /** 处理节点其他属性数据 */
+  processItem: (node: T) => any
+) {
+  let listTmp = list;
+  if (typeof processItem === 'function') {
+    listTmp = list.map((item) => {
+      let itemTmp = processItem({ ...item }) || item;
+      return itemTmp;
+    });
+  }
+
+  const group = {};
+  listTmp.forEach((item) => {
+    const parentId = item[propPid];
+    if (!Object.prototype.hasOwnProperty.call(group, parentId)) {
+      // if (!group.hasOwnProperty(parentId)) {
+      group[parentId] = [];
+    }
+    group[parentId].push(item);
+  });
+
+  listTmp.forEach(function (item) {
+    var id = item[idKey];
+    if (Object.prototype.hasOwnProperty.call(group, id)) {
+      // if (group.hasOwnProperty(id)) {
+      item[childrenKey] = group[id];
+    }
+  });
+
+  return group[valRootPid];
+}
