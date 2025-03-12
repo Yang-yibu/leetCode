@@ -24,6 +24,17 @@ export function execFnBodyStr(data, fnBodyStr) {
 }
 
 /**
+ * @example
+ * execFnBodyStr(varPool, "return d.a === 1", ', param1, param2', {a:1}, {b:2})
+ */
+export function execFnBodyStr2(data, fnBodyStr, op, ...oparam) {
+  // eslint-disable-next-line no-new-func
+  let func = new Function('d' + (op || ''), fnBodyStr || 'return d');
+
+  return func(data, ...oparam);
+}
+
+/**
  * 根据属性路径，获取值
  * @param {} data
  * @param {string} path

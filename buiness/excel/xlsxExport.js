@@ -1,7 +1,12 @@
 import * as XLSX from 'xlsx';
 
-const Blob = Buffer;
+import { Blob } from 'buffer';
+const fs = require('fs').promises;
+// const Blob = Buffer;
 
+/**
+ * TODO: 这个方法不行，丢失了原始数据类型信息，全部转成了字符串
+ */
 export default class DownExcel {
   constructor({ header = [], propField = 'prop', titleField = 'title' }) {
     this.tableHeader = header;
@@ -11,6 +16,8 @@ export default class DownExcel {
       basisCell: 0,
       maxRow: 0,
     };
+    this.propField = propField;
+    this.titleField = titleField;
   }
 
   down(fileName, tableData = []) {
@@ -23,7 +30,7 @@ export default class DownExcel {
     const allCsv = this.margeCsv(headCsv, dataCsv);
     const cscSeet = this.csv2sheet(allCsv);
     cscSeet['!merges'] = mergeInfo;
-    console.log(cscSeet);
+    // console.log(cscSeet);
     let blob = this.sheet2blob(cscSeet);
     this.openDownloadDialog(blob, `${fileName}.xlsx`);
   }
@@ -51,11 +58,28 @@ export default class DownExcel {
       for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xff;
       return buf;
     }
+
     return blob;
   }
 
   //  导出Excel
   openDownloadDialog(url, saveName) {
+    if (typeof window === 'undefined') {
+      url
+        .arrayBuffer()
+        .then((buffer) => {
+          const data = Buffer.from(buffer);
+          return fs.writeFile(saveName, data);
+        })
+        .then(() => {
+          console.log('文件已保存到 ' + saveName);
+        })
+        .catch((err) => {
+          console.error('保存文件失败:', err);
+        });
+      return;
+    }
+
     if (typeof url == 'object' && url instanceof Blob) {
       url = URL.createObjectURL(url); // 创建blob地址
     }
@@ -93,7 +117,7 @@ export default class DownExcel {
     for (let j = 0, ele; (ele = data[j++]); ) {
       let value = [];
       for (let i = 0, item; (item = lastChild[i++]); ) {
-        value.push(ele[item[propField]] || '-');
+        value.push(ele[item[this.propField]] || '-');
       }
       result.push(value);
     }
@@ -118,9 +142,10 @@ export default class DownExcel {
       let info = mergeInfo[i];
       const { s, item } = info;
       const { c, r } = s;
-      const { propField: title } = item;
+      // const { propField: title } = item;
+      const title = item[this.titleField];
       csvArr[r][c] = title;
-      console.log(mergeInfo);
+      // console.log(mergeInfo);
     }
     csvArr = csvArr.map((el) => {
       return el.join('^');
@@ -141,7 +166,16 @@ export default class DownExcel {
     //  剪切未数组
     csv.forEach((el) => {
       //  剪切数据并添加答题arr
-      arr.push(el.split('^'));
+      arr.push(
+        el.split('^').map((v) => {
+          let _v = v * 1;
+          if (typeof _v === 'number' && !isNaN(_v)) {
+            return _v;
+          } else {
+            return v;
+          }
+        })
+      );
     });
     //  调用方法
     return XLSX.utils.aoa_to_sheet(arr);

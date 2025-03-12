@@ -1,6 +1,8 @@
 import DownExcel from './xlsxExport';
 
 new DownExcel({
+  propField: 'field',
+  titleField: 'title',
   header: [
     {
       field: 'c1',
@@ -23,9 +25,9 @@ new DownExcel({
   ],
 }).down(`${+new Date()}`, [
   {
-    a111: 'LLL',
-    c1: 'HHH',
-    c2: 'AAA',
-    a444: 'III',
+    c1: 'LLL',
+    c2: 'HHH',
+    c3: '124',
+    c4: 124,
   },
 ]);
