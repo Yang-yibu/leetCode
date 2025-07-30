@@ -1,0 +1,108 @@
+/**
+ * 提取函数体，转为字符串
+ * @param {Function} fn
+ */
+export function extraFnBody(fn) {
+  const fnStr = fn.toString();
+  const fnBody = fnStr.replace(/function.*?\{(.*)\}/g, '$1');
+  return fnBody;
+}
+/**
+ * 执行函数体字符串
+ * - 场景：根据设置的转换函数处理返回结果
+ * @param {string} fnBodyStr
+ * @param {any} data
+ * @example
+ * var varPool = { a: 1 }
+ * execFnBodyStr(varPool, "return data.a === 1") === true
+ */
+export function execFnBodyStr(data, fnBodyStr) {
+  // eslint-disable-next-line no-new-func
+  let func = new Function('data', fnBodyStr || 'return data');
+
+  return func(data);
+}
+
+/**
+ * @example
+ * execFnBodyStr(varPool, "return d.a === 1", ', param1, param2', {a:1}, {b:2})
+ */
+export function execFnBodyStr2(data, fnBodyStr, op, ...oparam) {
+  // eslint-disable-next-line no-new-func
+  let func = new Function('d' + (op || ''), fnBodyStr || 'return d');
+
+  return func(data, ...oparam);
+}
+
+/**
+ * 根据属性路径，获取值
+ * @param {} data
+ * @param {string} path
+ */
+export function getValByPath(data, path) {
+  let _path = '.' + path;
+  if (path.startsWith('[')) {
+    _path = path;
+  }
+  // eslint-disable-next-line no-new-func
+  let func = new Function('data', 'return data' + _path);
+
+  return func(data);
+}
+
+/**
+ * 解析路径
+ * @param {any} data
+ * @param {(string|number)[]} path
+ * @returns
+ */
+export function getValByPath2(data, path, joinStr = '') {
+  return execFnBodyStr(data, 'return data' + path.map((v) => `['${v}']`).join(joinStr || ''));
+}
+
+/**
+ * 解析路径2 - vTable Tree 数据路径
+ * @param {any} data
+ * @param {(string|number)[]} path
+ * @returns
+ */
+export function getValByPath3(data, path) {
+  return execFnBodyStr(data, 'return data' + path.map((v) => `['${v}']`).join('["children"]'));
+}
+
+/** 数组位置交换 */
+export function arrSwap(arr = [], i1, i2) {
+  if (i1 < 0 || i1 >= arr.length) return;
+  if (i2 < 0 || i2 >= arr.length) return;
+  [arr[i1], arr[i2]] = [arr[i2], arr[i1]];
+}
+
+/** 分割数组，返回二维数组 */
+// export function groupArray(arr: any[] = [], subGroupLen: number) {
+export function groupArray(arr = [], subGroupLen) {
+  if (!subGroupLen) return [arr];
+  let index = 0;
+  const newArray = [];
+  while (index < arr.length) {
+    newArray.push(arr.slice(index, (index += subGroupLen)));
+  }
+  return newArray;
+}
+
+/**
+ * 根据分页信息，将列表分为三部分
+ * @param d 列表
+ * @param i 当前页
+ * @param size 每页数量
+ */
+// export function sliceListOfPages(d: any[] = [], i: number, size: number) {
+export function sliceListOfPages(d = [], i, size) {
+  // var d = [0, 1]; var i = 1, size = 2;
+  // var start = (i - 1)*size;
+  // console.log(d.slice(0, start), d.slice(start, start + size), d.slice(start + size))
+  const start = (i - 1) * size;
+  const prev = d.slice(0, start);
+  const curr = d.slice(start, start + size);
+  const next = d.slice(start + size);
+  return [prev, curr, next];
+}

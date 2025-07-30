@@ -28,6 +28,7 @@ function list2tree(list) {
 
 /**
  * 列表转树
+ * - TODO: valRootPid=null 或 undefined 需要测试
  * @param {[]} list 源列表
  * @param {object} p
  * @param {string} p.valRootPid 根节点值
@@ -37,7 +38,7 @@ function list2tree(list) {
  * @param {Function} processItem 处理节点其他属性数据
  * @returns
  */
- export function list2tree2 (
+export function list2tree2(
   list,
   { valRootPid = 'null', propPid = 'parentId', idKey = 'id', childrenKey = 'children' } = {},
   processItem
@@ -45,7 +46,7 @@ function list2tree(list) {
   let listTmp = list;
   if (typeof processItem === 'function') {
     listTmp = list.map((item) => {
-      let itemTmp = processItem({ ...item }) || item ;
+      let itemTmp = processItem({ ...item }) || item;
       return itemTmp;
     });
   }
@@ -53,7 +54,8 @@ function list2tree(list) {
   const group = {};
   listTmp.forEach((item) => {
     const parentId = item[propPid];
-    if (!group.hasOwnProperty(parentId)) {
+    if (!Object.prototype.hasOwnProperty.call(group, parentId)) {
+      // if (!group.hasOwnProperty(parentId)) {
       group[parentId] = [];
     }
     group[parentId].push(item);
@@ -61,7 +63,8 @@ function list2tree(list) {
 
   listTmp.forEach(function (item) {
     var id = item[idKey];
-    if (group.hasOwnProperty(id)) {
+    if (Object.prototype.hasOwnProperty.call(group, id)) {
+      // if (group.hasOwnProperty(id)) {
       item[childrenKey] = group[id];
     }
   });
