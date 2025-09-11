@@ -47,3 +47,47 @@ export function list2tree2<T>(
 
   return group[valRootPid];
 }
+
+type TreeNodeAddProps = (
+  tree: any[],
+  props?: {
+    /** children 属性，默认 children */
+    childrenProp?: string;
+    initPos?: number[];
+    fnResOnlyRender?: boolean;
+  },
+  processNode?: (item: object, pos: number[], pNode?: object) => object
+) => any[];
+
+/**
+ * 为树节点添加属性
+ * @example
+ * treeNodeAddProp([{label: '1'}, '12'], {}, (node) => {
+ *  console.log(node);
+ *  return typeof node ==='string'? { label: node }: node
+ * }) // [{ label: '1'}, { label: '12'}]
+ *
+ * @description 纯函数，不会改变源数据
+ */
+export const treeNodeAddProp: TreeNodeAddProps = (tree, props, processNode = (item) => item) => {
+  const { childrenProp = 'children', initPos = [], fnResOnlyRender } = props || {};
+
+  const childrenNode = (dataTrees, parentPos, pNode) => {
+    return dataTrees.map((item, index) => {
+      const pos = parentPos.concat(index);
+
+      const _item = typeof processNode === 'function' && processNode(item, pos, pNode);
+
+      if (item[childrenProp] && item[childrenProp].length) {
+        return { ..._item, [childrenProp]: childrenNode(item[childrenProp], pos, item) };
+      }
+
+      if (fnResOnlyRender) {
+        return _item;
+      }
+      return { ..._item };
+    });
+  };
+
+  return childrenNode(tree, initPos, undefined);
+};
