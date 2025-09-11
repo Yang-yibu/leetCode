@@ -43,6 +43,7 @@
         "--runInBand",
         "--env=jsdom",
         // 在测试文件 Tab 可用
+        // TODO: 其他模块有相同文件名时，有问题
         "${fileBasename}"
       ],
       "cwd": "${workspaceFolder}",
@@ -78,7 +79,7 @@
       "type": "node",
       "request": "launch",
       // TODO: 暂不能用 再源文件夹中 运行对应测试文件
-      "name": "JDAtSourceDir",
+      "name": "--JDAtSourceDir",
       "program": "${workspaceFolder}/node_modules/jest/bin/jest",
       "runtimeArgs": [
         // "--inspect-brk"
