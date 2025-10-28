@@ -53,6 +53,8 @@ type TreeNodeAddProps = (
   props?: {
     /** children 属性，默认 children */
     childrenProp?: string;
+    /** 转换 children 属性字段*/
+    convertChildrenProp?: string;
     initPos?: number[];
     fnResOnlyRender?: boolean;
   },
@@ -70,7 +72,12 @@ type TreeNodeAddProps = (
  * @description 纯函数，不会改变源数据
  */
 export const treeNodeAddProp: TreeNodeAddProps = (tree, props, processNode = (item) => item) => {
-  const { childrenProp = 'children', initPos = [], fnResOnlyRender } = props || {};
+  const {
+    childrenProp = 'children',
+    convertChildrenProp = childrenProp,
+    initPos = [],
+    fnResOnlyRender,
+  } = props || {};
 
   const childrenNode = (dataTrees, parentPos, pNode) => {
     return dataTrees.map((item, index) => {
@@ -79,7 +86,7 @@ export const treeNodeAddProp: TreeNodeAddProps = (tree, props, processNode = (it
       const _item = typeof processNode === 'function' && processNode(item, pos, pNode);
 
       if (item[childrenProp] && item[childrenProp].length) {
-        return { ..._item, [childrenProp]: childrenNode(item[childrenProp], pos, item) };
+        return { ..._item, [convertChildrenProp]: childrenNode(item[childrenProp], pos, item) };
       }
 
       if (fnResOnlyRender) {
